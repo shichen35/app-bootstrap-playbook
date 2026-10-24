@@ -1,0 +1,3 @@
+{{APP_NAME}} scheduled check: read {{repo path}}/doc/dev-progress.md, git log --oneline and git status. If any tasks are still unticked, first finish any uncommitted changes, get them through tools/check.sh (check the exit code) and commit, then continue from the first unticked task (one single-line Conventional Commit per task, run tools/check.sh before every commit, review simulator screenshots at milestones, log decisions and problems in doc/decisions.md). If everything is done, give only a brief report and remind the user to review doc/decisions.md.
+
+<!-- Usage: CronCreate cron "17 */3 * * *", recurring true. It lasts only for the current session and expires after 7 days; CronDelete it when the work is done. -->
