@@ -8,6 +8,8 @@ A complete, reusable process for taking an app from idea to store-ready, with an
 |---|---|---|
 | [process/](process/) | 14 process docs, one per stage: what to do, what it produces, how to accept it, lessons learned | Read [00-overview](process/00-overview.md) before starting a new project; read each stage's doc when you reach that stage |
 | [skills/](skills/) | 8 skills that turn the process into instructions an agent can run directly. Each stage's output formats (`*-FORMAT.md`) and scripts live in the directory of the skill that uses them | Install as a plugin, or symlink into `~/.claude/skills/` |
+| [docs/](docs/) | One page per skill: what it does, when to reach for it, common questions, and how to tell it's working | When you are deciding whether a skill fits |
+| [hooks/](hooks/) | Plugin hooks: block `git commit` when code has changed and `tools/check.sh` has not passed since; report task list progress when a session starts | Active automatically when installed as a plugin |
 | [prompts/](prompts/) | Paste-ready prompts for every stage, plus prompts for resuming after an interruption, porting, review and publishing | Copy into your conversation with the agent |
 
 ## Start a new project in three steps
@@ -29,7 +31,7 @@ A complete, reusable process for taking an app from idea to store-ready, with an
 
 2. Create a project directory, write up your idea in the format of [prompts/00-kickoff.md](prompts/00-kickoff.md), and hand it to the agent with `/app-research` at the start. Whenever you are unsure which skill a stage needs, ask `/ask-playbook`.
 
-3. At the end of each stage, check the output against the "stage gates" in [process/00-overview.md](process/00-overview.md) before moving on. For long tasks, `app-task-loop` sets a scheduled wake-up at the start, so work resumes on its own if a session limit cuts it off.
+3. At the end of each stage, check the output against the "stage gates" in [process/00-overview.md](process/00-overview.md) before moving on. For long tasks, `app-task-loop` sets a scheduled wake-up at the start, so work resumes on its own if a session limit cuts it off. With the plugin installed, two hooks act as a safety net: each new session opens with a report of the next task, and every commit first confirms the check has passed. The hooks need `jq` (bundled with macOS 15 and later) and do not run with a symlink install.
 
 ## Skills
 
@@ -50,6 +52,8 @@ A complete, reusable process for taking an app from idea to store-ready, with an
 | [app-scaffold](skills/app-scaffold/SKILL.md) | A buildable empty project, CLAUDE.md, `tools/check.sh`, task list, decision log; ships iOS / Android scripts |
 | [app-task-loop](skills/app-task-loop/SKILL.md) | One task per commit, a passing check before every commit, screenshot and code review at milestones, scheduled resume |
 | [app-screenshot-review](skills/app-screenshot-review/SKILL.md) | Take screenshots, review them against a checklist, fix, record the milestone |
+
+Maintenance conventions are in [AGENTS.md](AGENTS.md); what this repo accepts and rejects is in [SCOPE.md](SCOPE.md).
 
 Conventions: when one skill calls another, it says `Call the Skill tool with "<name>"` instead of linking files across directories, and format files and scripts live only in the directory of the skill that owns them. User-invoked skills may call model-invoked ones, never the reverse.
 

@@ -30,4 +30,5 @@ echo "== localization"
 APP=$APP tools/sync-strings.sh
 APP=$APP tools/check-strings.sh
 
+tools/check-stamp.sh write
 echo "OK"

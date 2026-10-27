@@ -35,11 +35,34 @@ Fix what the reviews find in this milestone's commit, or log it as P-n and add i
 
 ## Rules
 
-- One task, one commit, and the commit includes the code, tests, translations, the tick and the decision-log entry together.
-- Never skip a failing check. Reproduce intermittent failures and log them (P-n); don't pretend you didn't see them.
+**One task, one commit**, and the commit includes the code, tests, translations, the tick and the decision-log entry together.
+Why: after an interruption, work resumes from "the last commit + the first unticked task". If one commit mixes two tasks, you can't tell which one is finished, and rollbacks and reviews have to take both at once.
+
+**Check the exit code, not the last line of output.**
+Why: a pipe swallows the failure code, so a failed check gets committed anyway. This has happened on a real project.
+
+- Bad: `tools/check.sh | tail -1 && git commit -m "feat: …"`
+- Good: `tools/check.sh > /tmp/check.log 2>&1; echo $?`, and only after you see `0`, run `git commit` as a separate step.
+
+When this is installed as a plugin, a pre-commit hook blocks any commit if the checks haven't passed since the last code change. If it blocks you, run the checks; don't bypass the hook.
+
+**Never skip a failing check.** Reproduce intermittent failures and log them (P-n); don't pretend you didn't see them.
+Why: the flaky failure you skip today is the bug you can't pin down in the next task.
+
+**If you can't verify something, write "not verified"; don't pretend it's done.**
+Why: the user only checks what you list.
+
+- Bad: "Purchase flow verified in the simulator." (nobody actually tapped through it)
+- Good: "Purchase flow: a sandbox purchase needs a human to tap through it; not verified. Verified: the StoreKit configuration file loads and product prices display correctly."
+
+**Other**
+
 - Never let two agents write the same set of files at once; read-only research can run in parallel subagents.
 - Stop and ask before external actions that need the user's authorization (downloading large files, pushing, purchases).
-- Write any verification you can't do (it needs tapping, a real device, a real purchase) into the decision log as "not verified"; don't pretend it's done.
+
+## Stays on
+
+Once used, this skill stays on for the rest of the session. After answering other questions, a change of topic or context compaction, your next code change still gets committed under these rules. It ends in only two cases: the user says "stop the task loop" or "stop loop", or every task on the list is ticked.
 
 ## Done when
 

@@ -19,7 +19,7 @@ Read `doc/feature-requirements.md`, `doc/tech-spec.md` and `doc/adr/README.md` f
 
 ## 2. Check script `tools/check.sh`
 
-Copy `scripts/<platform>/` from this skill's directory into the project's `tools/`, and hardcode defaults such as `APP` and `KIT` at the top. See [scripts/README.md](scripts/README.md) for what each script does and its parameters.
+Copy `scripts/<platform>/` from this skill's directory into the project's `tools/`, and hardcode defaults such as `APP` and `KIT` at the top. Also copy `scripts/common/check-stamp.sh`: as its last step, a passing `check.sh` calls it to record a fingerprint, and the pre-commit hook only lets a commit through when that fingerprint matches. See [scripts/README.md](scripts/README.md) for what each script does and its parameters.
 
 | Step | Android | iOS |
 |---|---|---|

@@ -35,4 +35,5 @@ if missing:
     print("Missing translations:\n" + "\n".join(missing))
     sys.exit(1)
 PY
+tools/check-stamp.sh write
 echo OK
