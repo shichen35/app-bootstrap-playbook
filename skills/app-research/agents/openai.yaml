@@ -1,0 +1,5 @@
+interface:
+  display_name: "App Research"
+  short_description: "Competitor and pricing research with evidence"
+policy:
+  allow_implicit_invocation: false

@@ -1,6 +1,6 @@
 # Scripts
 
-Copy these into a new project's `tools/`.
+app-scaffold copies these into a new project's `tools/`.
 
 | Script | Purpose | Parameters |
 |---|---|---|
@@ -12,6 +12,5 @@ Copy these into a new project's `tools/`.
 | `ios/make-icon.swift` | Draws a 1024 app icon with no alpha | Edit `drawArtwork(in:)` |
 | `ios/swift-format.json` | swift-format config (copy to `.swift-format` at the repo root) | — |
 | `android/check.sh` | lint + unit tests; prints any lint findings other than UnusedResources (and fails if there are any); checks that every language's strings.xml is complete | `MODULE` (default `:app`) |
-| `common/redate-commits.py` | Generates a commit-date mapping (spread evenly across one day's working hours, plus random jitter) | `--date --start --end --tz` |
 
 In the new project, hardcode defaults such as `APP` and `KIT` at the top of each script instead of passing environment variables every time.

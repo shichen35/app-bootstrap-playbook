@@ -1,0 +1,16 @@
+{
+  "name": "app-bootstrap-playbook",
+  "owner": {
+    "name": "app-bootstrap-playbook contributors"
+  },
+  "description": "The app bootstrap playbook as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "app-bootstrap-playbook",
+      "source": "./",
+      "description": "Skills that take a native mobile app from idea to release, composed with mattpocock/skills.",
+      "category": "development",
+      "keywords": ["app", "android", "ios", "workflow"]
+    }
+  ]
+}

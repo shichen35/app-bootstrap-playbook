@@ -12,7 +12,7 @@ Before pushing, check: no secrets (`local.properties`, real ad IDs and signing f
 
 ## Tidying commit history (optional)
 
-If you need consistent commit timestamps (e.g. all during daytime hours on certain days, evenly spaced with random jitter), generate a mapping with [tools/common/redate-commits.py](../tools/common/redate-commits.py), then run `git filter-branch --env-filter` to rewrite both author and committer dates. Create a `backup/before-redate` branch first, and afterward confirm with `git diff backup/before-redate main --stat` that the content is unchanged. **Only do this before pushing**; never rewrite history that has already been pushed.
+If you need consistent commit timestamps (e.g. all during daytime hours on certain days, evenly spaced with random jitter), generate a mapping with [app-repo-publish/scripts/redate-commits.py](../skills/app-repo-publish/scripts/redate-commits.py), then run `git filter-branch --env-filter` to rewrite both author and committer dates. Create a `backup/before-redate` branch first, and afterward confirm with `git diff backup/before-redate main --stat` that the content is unchanged. **Only do this before pushing**; never rewrite history that has already been pushed.
 
 ## Repo extras
 
@@ -31,4 +31,4 @@ If you need consistent commit timestamps (e.g. all during daytime hours on certa
 
 ## Release checklist
 
-See [templates/release-checklist.md](../templates/release-checklist.md): signing, privacy manifest and Data safety, store assets (screenshots batch-generated with the debug hooks), pricing and regions, privacy policy URL, ad IDs and the consent flow, in-app product review, version numbers, and hands-on testing of the Release build.
+See [app-repo-publish/RELEASE-CHECKLIST.md](../skills/app-repo-publish/RELEASE-CHECKLIST.md): signing, privacy manifest and Data safety, store assets (screenshots batch-generated with the debug hooks), pricing and regions, privacy policy URL, ad IDs and the consent flow, in-app product review, version numbers, and hands-on testing of the Release build.

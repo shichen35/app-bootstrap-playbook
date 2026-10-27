@@ -4,9 +4,9 @@ Goal: before any code is written, settle the layers, boundaries, key data flows 
 
 ## Outputs
 
-- `doc/tech-spec.md` (template [templates/tech-spec.md](../templates/tech-spec.md))
-- `doc/adr/NNNN-<short-title>.md` + a `doc/adr/README.md` index (template [templates/adr/](../templates/adr/))
-- `doc/performance-research.md` (for performance-sensitive projects; template [templates/performance-research.md](../templates/performance-research.md))
+- `doc/tech-spec.md` (template [app-spec/TECH-SPEC-FORMAT.md](../skills/app-spec/TECH-SPEC-FORMAT.md))
+- `doc/adr/NNNN-<short-title>.md` + a `doc/adr/README.md` index (template [app-spec/ADR-FORMAT.md](../skills/app-spec/ADR-FORMAT.md))
+- `doc/performance-research.md` (for performance-sensitive projects; template [app-spec/PERFORMANCE-FORMAT.md](../skills/app-spec/PERFORMANCE-FORMAT.md))
 
 ## Skeleton of the tech-spec
 

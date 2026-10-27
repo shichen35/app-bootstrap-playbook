@@ -4,13 +4,13 @@ Each file is a paste-ready prompt; replace the `{{…}}` parts with your own det
 
 | File | Stage | Skill |
 |---|---|---|
-| [00-kickoff.md](00-kickoff.md) | Start from an idea and run the whole process | app-bootstrap |
-| [01-research.md](01-research.md) | Competitor and pricing research | app-competitor-research |
+| [00-kickoff.md](00-kickoff.md) | Start from an idea and run the whole process | ask-playbook |
+| [01-research.md](01-research.md) | Competitor and pricing research | app-research |
 | [02-spec.md](02-spec.md) | Requirements, glossary, architecture, ADRs, performance research | app-spec |
 | [03-mock.md](03-mock.md) | HTML mock | — |
-| [04-scaffold-and-plan.md](04-scaffold-and-plan.md) | Project scaffold, check script, task list | app-task-loop |
+| [04-scaffold-and-plan.md](04-scaffold-and-plan.md) | Project scaffold, check script, task list | app-scaffold |
 | [05-implement-all.md](05-implement-all.md) | Work through the whole list in one go (long session + scheduled wake-up) | app-task-loop |
-| [resume.md](resume.md) | Scheduled wake-up / resume after an interruption | app-task-loop |
+| [RESUME.md](../skills/app-task-loop/RESUME.md) | Scheduled wake-up / resume after an interruption | app-task-loop |
 | [ui-review.md](ui-review.md) | Screenshot review, design lab | app-screenshot-review |
 | [performance.md](performance.md) | Performance measurement and optimization | — |
 | [monetization.md](monetization.md) | Free / Pro, ads, in-app purchases | — |

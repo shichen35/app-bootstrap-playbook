@@ -20,7 +20,7 @@ After implementation, do one full UI/UX review and put the output in `doc/design
 | `dist/index.html`, `compare.html` | Interactive mock of the redesign; before/after views of the same scenario |
 | `check.cjs`, `render-check.cjs` | Browser-free checks of page generation and interaction states |
 
-Review method (template [templates/ui-review.md](../templates/ui-review.md)):
+Review method (template [app-screenshot-review/REVIEW-FORMAT.md](../skills/app-screenshot-review/REVIEW-FORMAT.md)):
 
 1. First, put numbered screenshots in `assets/`, covering every main screen, narrow and wide windows, empty states, error states and notifications.
 2. Lead with conclusions, including what the current structure gets right. Don't tear it down for the sake of a reskin.

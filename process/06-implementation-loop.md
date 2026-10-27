@@ -2,7 +2,7 @@
 
 Goal: break the requirements into 15–35 tasks that can each be committed on their own, and have the agent work through the list one task at a time. Whenever work is interrupted (a session limit, a new session, a hand-off to someone else), it can pick up again from the state of the repo.
 
-## Task list `doc/dev-progress.md` (template [templates/dev-progress.md](../templates/dev-progress.md))
+## Task list `doc/dev-progress.md` (template [app-scaffold/DEV-PROGRESS-FORMAT.md](../skills/app-scaffold/DEV-PROGRESS-FORMAT.md))
 
 - Open with a **resume protocol**: "After an interruption, continue from the first unchecked task: check `git log --oneline` and `git status` first; finish any uncommitted changes, pass the checks, then commit."
 - One line per task: `- [ ] N. type(scope): description (FR-n)`, with ★ on milestones.
@@ -23,7 +23,7 @@ Read the task and its related FRs / ADRs
 
 Commit messages: Conventional Commits, one line, no body, no trailers, no attribution. The subject is a verb phrase describing the user-visible effect (`feat(log): roll unfinished tasks into the next month on migration`).
 
-## Decision log `doc/decisions.md` (template [templates/decisions.md](../templates/decisions.md))
+## Decision log `doc/decisions.md` (template [app-scaffold/DECISION-LOG-FORMAT.md](../skills/app-scaffold/DECISION-LOG-FORMAT.md))
 
 - **D-n decisions**: what was chosen, why, and what was given up.
 - **P-n problems**: symptom, cause, and how it was solved (or why it wasn't).
@@ -35,7 +35,7 @@ How ADRs and the decision log divide the work: ADRs record long-lived, architect
 ## Long jobs: scheduled wake-up and resume
 
 - When work starts, set up a **recurring in-session task** (Claude Code `CronCreate`, say every 3 hours) whose prompt spells out: "Read dev-progress and git status; if anything is unfinished, continue from the first unchecked task, following the rules in CLAUDE.md." After a session limit interrupts the work, it wakes the session once quota is back. Recurring tasks expire automatically after 7 days; delete it yourself once everything is done.
-- For the prompt template, see [prompts/resume.md](../prompts/resume.md).
+- For the prompt template, see [app-task-loop/RESUME.md](../skills/app-task-loop/RESUME.md).
 
 ## Parallelism and sub-agents
 

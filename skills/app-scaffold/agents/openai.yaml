@@ -1,0 +1,3 @@
+interface:
+  display_name: "App Scaffold"
+  short_description: "Buildable empty project with check script and guardrails"

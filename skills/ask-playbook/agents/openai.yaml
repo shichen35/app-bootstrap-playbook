@@ -1,0 +1,5 @@
+interface:
+  display_name: "Ask Playbook"
+  short_description: "Which playbook skill or phase fits now"
+policy:
+  allow_implicit_invocation: false

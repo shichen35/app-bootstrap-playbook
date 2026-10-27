@@ -1,0 +1,5 @@
+interface:
+  display_name: "App Repo Publish"
+  short_description: "Private GitHub repo, CI and release checklist"
+policy:
+  allow_implicit_invocation: false

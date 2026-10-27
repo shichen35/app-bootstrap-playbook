@@ -1,0 +1,3 @@
+interface:
+  display_name: "App Task Loop"
+  short_description: "One task per commit, check before every commit"

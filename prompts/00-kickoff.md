@@ -1,4 +1,4 @@
-Build an app from scratch following the app-bootstrap process ({{playbook path}}):
+/app-research Build an app from scratch following the app-bootstrap-playbook process:
 
 - Idea: {{one sentence: what it does}}
 - Target users: {{who they are and what they use today}}

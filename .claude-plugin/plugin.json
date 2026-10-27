@@ -1,0 +1,19 @@
+{
+  "name": "app-bootstrap-playbook",
+  "version": "0.1.0",
+  "description": "Skills that take a native mobile app from idea to release: research, spec, scaffold, one-commit-per-task loop, screenshot review, platform port and publishing.",
+  "author": {
+    "name": "app-bootstrap-playbook contributors"
+  },
+  "keywords": ["app", "android", "ios", "spec", "adr", "workflow"],
+  "skills": [
+    "./skills/ask-playbook",
+    "./skills/app-research",
+    "./skills/app-spec",
+    "./skills/app-scaffold",
+    "./skills/app-task-loop",
+    "./skills/app-screenshot-review",
+    "./skills/app-platform-port",
+    "./skills/app-repo-publish"
+  ]
+}

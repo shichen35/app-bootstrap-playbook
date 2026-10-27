@@ -1,4 +1,4 @@
-Use app-competitor-research to run the research:
+/app-research Run the research:
 
 - Our app: {{one-line positioning}}; the requirements draft / idea is in {{path, or "see above"}}.
 - Store and region: {{Google Play US hl=en_US&gl=US / App Store US}}.

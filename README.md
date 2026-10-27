@@ -7,23 +7,51 @@ A complete, reusable process for taking an app from idea to store-ready, with an
 | Directory | Contents | When to use it |
 |---|---|---|
 | [process/](process/) | 14 process docs, one per stage: what to do, what it produces, how to accept it, lessons learned | Read [00-overview](process/00-overview.md) before starting a new project; read each stage's doc when you reach that stage |
-| [templates/](templates/) | Templates for each stage's output docs: requirements, architecture, ADR, task list, decision log, competitors, pricing, performance, UI review, CLAUDE.md, release checklist | Copy into the new project's `doc/` and fill in |
-| [skills/](skills/) | 7 Claude Code skills (`SKILL.md`) that turn the process into instructions an agent can run directly | Symlink into `~/.claude/skills/` |
+| [skills/](skills/) | 8 skills that turn the process into instructions an agent can run directly. Each stage's output formats (`*-FORMAT.md`) and scripts live in the directory of the skill that uses them | Install as a plugin, or symlink into `~/.claude/skills/` |
 | [prompts/](prompts/) | Paste-ready prompts for every stage, plus prompts for resuming after an interruption, porting, review and publishing | Copy into your conversation with the agent |
-| [tools/](tools/) | Reusable scripts: iOS / Android check scripts, String Catalog sync and Chinese-string check, simulator screenshots, app icon generation, commit date cleanup | Copy into the new project's `tools/` and rename as needed |
 
 ## Start a new project in three steps
 
-1. Install the skills (once):
+1. Install the skills (once), in one of two ways:
 
    ```bash
-   # Run from the root of this repo
-   for d in "$PWD"/skills/*/; do ln -sfn "$d" ~/.claude/skills/$(basename "$d"); done
+   # Install as a Claude Code plugin (run from the root of this repo)
+   claude plugin marketplace add "$PWD"
+   claude plugin install app-bootstrap-playbook@app-bootstrap-playbook
    ```
 
-2. Create a project directory, write up your idea in the format of [prompts/00-kickoff.md](prompts/00-kickoff.md), and hand it to the agent. It follows the `app-bootstrap` skill through each stage in turn: research → requirements → architecture → mock → scaffold → step-by-step implementation → self-review → publish.
+   ```bash
+   # Or symlink into ~/.claude/skills and ~/.agents/skills; git pull keeps them current
+   scripts/link-skills.sh
+   ```
 
-3. At the end of each stage, check the output against the "stage gates" in [process/00-overview.md](process/00-overview.md) before moving on. For long tasks, have the agent set a scheduled wake-up at the start ([prompts/resume.md](prompts/resume.md)), so work resumes on its own if a session limit cuts it off.
+   Some steps call `grilling`, `domain-modeling`, `tdd`, `code-review` and `diagnosing-bugs` from [mattpocock/skills](https://github.com/mattpocock/skills). Install those too; without them, each skill falls back to a simpler approach.
+
+2. Create a project directory, write up your idea in the format of [prompts/00-kickoff.md](prompts/00-kickoff.md), and hand it to the agent with `/app-research` at the start. Whenever you are unsure which skill a stage needs, ask `/ask-playbook`.
+
+3. At the end of each stage, check the output against the "stage gates" in [process/00-overview.md](process/00-overview.md) before moving on. For long tasks, `app-task-loop` sets a scheduled wake-up at the start, so work resumes on its own if a session limit cuts it off.
+
+## Skills
+
+**User-invoked** (only a human can trigger these by typing `/name`: they cost money, act outside the repo, or make a large one-off change)
+
+| Skill | What it does |
+|---|---|
+| [ask-playbook](skills/ask-playbook/SKILL.md) | Router: which stage you are in, which skill comes next, how to handle context between stages |
+| [app-research](skills/app-research/SKILL.md) | Parallel subagents verify about 5 competitors, then synthesize a comparison and pricing research |
+| [app-platform-port](skills/app-platform-port/SKILL.md) | Build independently on another platform, sharing requirements but not code |
+| [app-repo-publish](skills/app-repo-publish/SKILL.md) | Redaction check, private repo creation and push, CI, release checklist |
+
+**Model-invoked** (the agent uses these on its own when they fit; you can also invoke them directly)
+
+| Skill | What it does |
+|---|---|
+| [app-spec](skills/app-spec/SKILL.md) | FR requirements, glossary, tech-spec, ADRs, performance research, HTML mock |
+| [app-scaffold](skills/app-scaffold/SKILL.md) | A buildable empty project, CLAUDE.md, `tools/check.sh`, task list, decision log; ships iOS / Android scripts |
+| [app-task-loop](skills/app-task-loop/SKILL.md) | One task per commit, a passing check before every commit, screenshot and code review at milestones, scheduled resume |
+| [app-screenshot-review](skills/app-screenshot-review/SKILL.md) | Take screenshots, review them against a checklist, fix, record the milestone |
+
+Conventions: when one skill calls another, it says `Call the Skill tool with "<name>"` instead of linking files across directories, and format files and scripts live only in the directory of the skill that owns them. User-invoked skills may call model-invoked ones, never the reverse.
 
 ## Core principles (one page)
 

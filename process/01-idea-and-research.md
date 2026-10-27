@@ -17,7 +17,7 @@ Goal: before writing a single requirement, find out **what's already on the mark
 
 ### 2. A separate dossier per competitor (`doc/competitors/<name>.md`)
 
-Use **parallel sub-agents**, one per competitor, each verifying the same checklist ([templates/competitor-dossier.md](../templates/competitor-dossier.md)) item by item. Source priority:
+Use **parallel sub-agents**, one per competitor, each verifying the same checklist ([app-research/DOSSIER-FORMAT.md](../skills/app-research/DOSSIER-FORMAT.md)) item by item. Source priority:
 
 1. The store listing (with region and language pinned, e.g. `hl=en_US&gl=US`), the Data safety page, and every store screenshot;
 2. The developer's website, help center and changelog;
@@ -27,7 +27,7 @@ If you don't install a competitor, say so: UI conclusions come from store screen
 
 ### 3. Assemble the comparison (`doc/competitor-analysis.md`)
 
-Fixed structure (template [templates/competitor-analysis.md](../templates/competitor-analysis.md)):
+Fixed structure (template [app-research/ANALYSIS-FORMAT.md](../skills/app-research/ANALYSIS-FORMAT.md)):
 
 1. **Conclusions** first: who has the core shape and who doesn't; where we overlap; what's unique; gaps; differentiation in one sentence.
 2. Competitor overview table.

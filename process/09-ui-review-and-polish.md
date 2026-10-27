@@ -4,7 +4,7 @@ Goal: the agent captures screenshots in the simulator, reads them, finds the pro
 
 ## How to capture screenshots
 
-- iOS: `tools/shot.sh <out.png> <screen> [device] [launch args…]` (see [tools/ios/shot.sh](../tools/ios/shot.sh)): builds, installs, seeds demo data on first run, runs `simctl launch -screen …`, waits, runs `simctl io screenshot`, and downscales to 1200 px before reading (to save tokens).
+- iOS: `tools/shot.sh <out.png> <screen> [device] [launch args…]` (see [app-scaffold/scripts/ios/shot.sh](../skills/app-scaffold/scripts/ios/shot.sh)): builds, installs, seeds demo data on first run, runs `simctl launch -screen …`, waits, runs `simctl io screenshot`, and downscales to 1200 px before reading (to save tokens).
 - Android: `adb exec-out screencap -p > out.png`; on a foldable, switch postures with the extended controls / `adb emu fold`.
 - macOS: an in-app screenshot hook renders the window to a PNG (`design/capture.py`), using a separate data directory for each shot.
 - Dark mode: `xcrun simctl ui <device> appearance dark`; language: `-AppleLanguages "(zh-Hans)" -AppleLocale zh_CN`.

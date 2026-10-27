@@ -1,0 +1,5 @@
+interface:
+  display_name: "App Platform Port"
+  short_description: "Independent native version on another platform"
+policy:
+  allow_implicit_invocation: false

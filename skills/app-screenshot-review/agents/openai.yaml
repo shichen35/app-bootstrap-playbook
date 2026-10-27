@@ -1,0 +1,3 @@
+interface:
+  display_name: "App Screenshot Review"
+  short_description: "Screenshot the app and fix what looks wrong"

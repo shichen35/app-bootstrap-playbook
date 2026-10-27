@@ -4,8 +4,8 @@ Goal: one set of feature requirements **shared by every platform**, each item nu
 
 ## Outputs
 
-- `doc/feature-requirements.md` (template [templates/feature-requirements.md](../templates/feature-requirements.md))
-- `CONTEXT.md` glossary (template [templates/CONTEXT.md](../templates/CONTEXT.md))
+- `doc/feature-requirements.md` (template [app-spec/FR-FORMAT.md](../skills/app-spec/FR-FORMAT.md))
+- `CONTEXT.md` glossary (template [app-spec/CONTEXT-FORMAT.md](../skills/app-spec/CONTEXT-FORMAT.md))
 
 ## How to write it
 

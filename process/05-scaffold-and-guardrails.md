@@ -12,7 +12,7 @@ Goal: the very first code commit installs both the rules the agent follows every
 
 Draw the app icon with a script (`tools/make-icon.swift`). iOS requires 1024×1024, no alpha, full bleed.
 
-## CLAUDE.md (template [templates/CLAUDE.md](../templates/CLAUDE.md))
+## CLAUDE.md (template [app-scaffold/CLAUDE-FORMAT.md](../skills/app-scaffold/CLAUDE-FORMAT.md))
 
 Three sections:
 
@@ -31,7 +31,7 @@ Three sections:
 
 ## Check script `tools/check.sh`
 
-Must pass before every commit. Contents by platform (ready-made scripts in [tools/](../tools/)):
+Must pass before every commit. Contents by platform (ready-made scripts in [app-scaffold/scripts/](../skills/app-scaffold/scripts/)):
 
 | Step | Android | iOS |
 |---|---|---|

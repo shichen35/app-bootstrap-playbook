@@ -1,0 +1,3 @@
+interface:
+  display_name: "App Spec"
+  short_description: "Requirements, glossary, architecture, ADRs and mock"
