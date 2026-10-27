@@ -8,24 +8,21 @@ Our recommendation: one independent repo per platform, each with its own native 
 - The UI should follow each platform's latest design language (Material 3 Expressive, Liquid Glass), and system components deliver that best.
 - Native code is cheap for an agent to write, so a separate native app per platform is actually less work than maintaining an abstraction layer.
 
-## Porting process
+## Platform mapping table
 
-1. **Read three things**: the source platform's FRs, its tech-spec / architecture doc, and its decisions (ADRs / decision log). For features, follow the most complete platform; if there's a platform in the same language (e.g. an existing macOS version when building iOS), take the code from that one.
-2. **Write the new platform's `architecture.md`**, centered on the **platform mapping table**: for every mechanism on the source platform, what the new platform uses, why, and what replaces anything it can't do. From the Example App:
+For the how-to, see the [app-platform-port](../skills/app-platform-port/SKILL.md) Skill. Its main output is the platform mapping table in the new platform's `architecture.md`: for every mechanism on the source platform, what the new platform uses, why, and what replaces anything it can't do. From the Example App:
 
-   | Android | iOS | Notes |
-   |---|---|---|
-   | Room | SwiftData | Same schema and migration rules; test scenarios carried over |
-   | Glance widgets | WidgetKit | Summaries written to a shared container and refreshed on change |
-   | Jetpack Ink | PencilKit | Each side keeps its native ink format; export converts both to images |
-   | AlarmManager reminders | Local notifications (64 pending max) | Only the nearest batch is scheduled |
-   | Receiving text shared from other apps | Share Extension (or "Open in App" for now) | Scope trade-off recorded in the decision log |
+| Android | iOS | Notes |
+|---|---|---|
+| Room | SwiftData | Same schema and migration rules; test scenarios carried over |
+| Glance widgets | WidgetKit | Summaries written to a shared container and refreshed on change |
+| Jetpack Ink | PencilKit | Each side keeps its native ink format; export converts both to images |
+| AlarmManager reminders | Local notifications (64 pending max) | Only the nearest batch is scheduled |
+| Receiving text shared from other apps | Share Extension (or "Open in App" for now) | Scope trade-off recorded in the decision log |
 
-3. **Open the decision log by stating**: "which platform defines the features, which platform the code comes from, and what the UI is rebuilt to", "copy or cross-repo dependency", and "minimum OS version".
-4. **Copy the core code within the same language**: copy it wholesale with its tests and record the upstream commit hash (`UPSTREAM.md`); then add what the new platform needs on top of the copy (with tests). Get the tests passing unchanged on the new platform before touching anything else. Across languages, rewrite from the tech-spec and carry the test scenarios over as is.
-5. **Move the app layer's pure logic too** (list projection, selection, import preview, Migration rules): strip the UI dependencies and English titles and put it in the new platform's pure-logic module.
-6. Reorder the task list for the new platform, tag each task name with its FR number, and implement them one by one.
-7. Finish with a **feature parity table**: mark each FR "same / substitute (reason) / not doing (reason)", in the README or the decision log's Wrap-up.
+## Why copied tests must pass unchanged first
+
+Within the same language, copy the core code and its tests wholesale. If the tests pass unchanged on the new platform, the move broke nothing, and anything added to the copy afterward comes with its own tests. Change the code before running the tests and you can't tell whether a failure came from the move or from your edits. Across languages (Kotlin ↔ Swift) you have to rewrite from the tech-spec, but the test scenarios carry over as is.
 
 ## Typical categories of platform differences
 

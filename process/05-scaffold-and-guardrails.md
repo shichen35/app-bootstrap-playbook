@@ -2,49 +2,21 @@
 
 Goal: the very first code commit installs both the rules the agent follows every session and the checks every commit must pass. From then on, quality rests on those two things, not on anyone's memory.
 
-## Project scaffold
+For the how-to, see the [app-scaffold](../skills/app-scaffold/SKILL.md) Skill; the scripts are in its `scripts/` directory.
 
-| Platform | Approach |
-|---|---|
-| Android | Copy an existing project's layout: single `:app` module, `libs.versions.toml` version catalog, compileSdk / targetSdk, JVM target, `extraWarnings`. ADR-0001 records whose layout we followed and why multi-module / Room were rejected. |
-| iOS | Hand-write `project.pbxproj` (objectVersion 77 with a **folder sync group**, `PBXFileSystemSynchronizedRootGroup`, so adding or removing files never touches the project file); put pure logic in a local Swift Package (`Packages/<Kit>`) that the app and widgets depend on; keep Info.plist fragments in `Config/` (outside the synced folder, so they aren't copied as resources); use a shared scheme (the StoreKit configuration has to be attached to it). |
-| macOS / CLI | A single Swift Package with multiple targets (core library, app, CLI); `scripts/build-app.sh` packages the .app. |
+## Why the guardrails go in the first commit
 
-Draw the app icon with a script (`tools/make-icon.swift`). iOS requires 1024×1024, no alpha, full bleed.
+Agents forget, get interrupted and switch sessions. Hard rules in `CLAUDE.md` get read at the start of every session; checks in `tools/check.sh` run on every commit. Install both in the first commit and every later task runs under the same constraints, with nothing riding on what anyone remembers.
 
-## CLAUDE.md (template [app-scaffold/CLAUDE-FORMAT.md](../skills/app-scaffold/CLAUDE-FORMAT.md))
+Most hard rules in `CLAUDE.md` come from the ADRs' red lines: the ADR explains the why, and `CLAUDE.md` keeps a one-line rule.
 
-Three sections:
+## Why the checks cover localization
 
-1. **One-line project description + tech stack**.
-2. **Commands**: build, check, unit tests, device tests, screenshots.
-3. **Hard rules**: one line each, drawn from the ADRs' red lines and project conventions, for example:
-   - Commits: one-line Conventional Commit, no body, no attribution; one commit per task, with the task list checkbox in the same commit.
-   - The pure-logic layer must not import platform frameworks.
-   - State changes only on the serial context.
-   - Layout is window-only.
-   - Colors come only from theme tokens / semantic colors; status never relies on color alone.
-   - Every user-facing string exists in English and Simplified Chinese.
-   - Decisions and problems go into `doc/decisions.md`.
-   - Simulator rules (which device, window visible, never create or delete AVDs).
-4. **Where to look** table: question → which file to read.
+A missing translation breaks neither the build nor the tests. It only shows up as stray English once a user switches to Chinese. Add "every key has a translation" to the check script, and a missing translation gets blocked before commit just like a compile error.
 
-## Check script `tools/check.sh`
+## Why a commit gate
 
-Must pass before every commit. Contents by platform (ready-made scripts in [app-scaffold/scripts/](../skills/app-scaffold/scripts/)):
-
-| Step | Android | iOS |
-|---|---|---|
-| Format / lint | `./gradlew :app:lintDebug`, then filter `UnusedResources` out of the SARIF and print the rest | `swift format lint --strict` (ships with Xcode; no SwiftLint needed) |
-| Unit tests | `:app:testDebugUnitTest` | `swift test --package-path Packages/<Kit>` |
-| Build | Already built by lint | `xcodebuild … build`, then **scan the output for `warning:` in this repo's sources** (some concurrency warnings ignore warnings-as-errors) |
-| Localization | Every key exists in every language's `strings.xml` | After the build, `xcstringstool sync` merges the extracted strings into the String Catalog and removes stale ones; then check that every key has zh-Hans |
-
-## Gate
-
-- [ ] `tools/check.sh` passes on the empty project.
-- [ ] `CLAUDE.md`, `doc/dev-progress.md` and `doc/decisions.md` exist.
-- [ ] First commit: `build: …`.
+A rule that says "run the checks before committing" isn't enough: we've had a pipe swallow a failing exit code. When the playbook is installed as a plugin, a pre-commit hook confirms the checks have passed since the last code change (using the fingerprint `check-stamp.sh` records), which turns the rule into a mechanical check.
 
 ## Lessons
 

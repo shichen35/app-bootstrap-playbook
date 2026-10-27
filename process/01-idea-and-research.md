@@ -2,57 +2,24 @@
 
 Goal: before writing a single requirement, find out **what's already on the market, where we overlap, where we stand apart, and how others charge**. The findings drive our positioning, the Pro scope and the store copy.
 
-## Inputs
+For the how-to, see the [app-research](../skills/app-research/SKILL.md) Skill.
 
-- A one-line idea and the target users (e.g. "a Daily Log written with rapid-logging symbols, with Migration and an Index, for people used to paper journals who also want search and reminders").
-- Target platforms and markets (Google Play US, the App Store, etc.).
-- Any existing mock or version on another platform (e.g. the iOS version modeled on the existing Android version).
+## Why each competitor gets its own dossier
 
-## Steps
+Every cell in the comparison table has to trace back to evidence. A single agent writing the whole thing start to finish passes off impressions as facts and turns "didn't see it" into "doesn't have it". Instead, one sub-agent per competitor works through the same checklist and records its findings in that competitor's dossier. When the dossiers are merged, every cell has a source, and spot checks have something to check against.
 
-### 1. Pick the competitors (about 5)
+Not all evidence is equal. The store listing (with region and language pinned), Data safety, store screenshots, the official website and the help center are strong evidence. Developer replies in reviews are weak evidence and can span as much as ten years. If you haven't installed a competitor, your UI conclusions rest on store screenshots alone, which may be out of date; say so.
 
-- The 3–4 most-installed "toolbox" apps in the category, plus 1–2 niche apps **closest in feature shape** to ours.
-- For each, record: package name / App ID, one-line positioning, installs, rating, last update, minimum OS, pricing model, and whether an account is required.
+## Why research has to be able to change the requirements
 
-### 2. A separate dossier per competitor (`doc/competitors/<name>.md`)
+Research only pays off if it changes later decisions. Gaps that bear directly on our positioning become candidate requirements for a human to decide on. Research for the Example App added three groups of requirements: home screen widgets, handwriting pages, and export / backup (appended under new FR numbers).
 
-Use **parallel sub-agents**, one per competitor, each verifying the same checklist ([app-research/DOSSIER-FORMAT.md](../skills/app-research/DOSSIER-FORMAT.md)) item by item. Source priority:
+This is also where the pricing model takes shape. The model itself goes into an ADR (e.g. "Free with a banner and up to 3 Collections; Pro as a one-time purchase"). The pricing doc keeps only the evidence, the reasoning, the price recommendation and the experiment plan.
 
-1. The store listing (with region and language pinned, e.g. `hl=en_US&gl=US`), the Data safety page, and every store screenshot;
-2. The developer's website, help center and changelog;
-3. Developer replies in store reviews (**weak evidence**; flag them separately).
-
-If you don't install a competitor, say so: UI conclusions come from store screenshots, which may be out of date.
-
-### 3. Assemble the comparison (`doc/competitor-analysis.md`)
-
-Fixed structure (template [app-research/ANALYSIS-FORMAT.md](../skills/app-research/ANALYSIS-FORMAT.md)):
-
-1. **Conclusions** first: who has the core shape and who doesn't; where we overlap; what's unique; gaps; differentiation in one sentence.
-2. Competitor overview table.
-3. Feature comparison tables, grouped by theme. Cells use only the fixed legend `Yes / Paid / No / Not mentioned / Not verified`, with qualifiers in parentheses. "Not mentioned" ≠ "doesn't have it".
-4. UI comparison (main screen, result format, navigation, design language, dark mode, tablets, Chinese).
-5. Overlap and differentiation: scenarios where users might pick a competitor instead of us; our differentiators; our gaps (and how each relates to our positioning).
-6. Method and limitations: before merging, go back to the original sources, **spot-check the key claims**, and record the results.
-7. Source list (with access dates).
-
-### 4. Pricing research (`doc/pricing-research.md`)
-
-- Competitor pricing table: model (one-time purchase / subscription / ads / paid download), price (including major regions), what paying unlocks, and Free-tier limits.
-- Groups: direct competitors, toolbox apps, reference points from the other platform.
-- Conclusion: the pricing model goes into an ADR (e.g. "Free with a banner and up to 3 Collections; Pro as a one-time purchase"). This doc keeps only the evidence and reasoning, plus the price recommendation and experiment plan the ADR leaves out.
-
-## Gate
-
-- [ ] Every cell traces back to a piece of evidence in a dossier.
-- [ ] The conclusions state who we are not competing with, and on what (e.g. we don't compete with all-in-one note apps on feature count; we lead with Migration and offline use).
-- [ ] Gaps that bear directly on our positioning (e.g. a today's-tasks widget, export / backup) become candidate requirements.
-- [ ] The pricing model has a draft ADR awaiting a human decision.
+The conclusions should state who we are not competing with, and on what. For example: we don't compete with all-in-one note apps on feature count; we lead with Migration and offline use.
 
 ## Lessons
 
 - Parallel agent fact-checking plus a human spot-check of 5–6 key claims is far more reliable than one agent writing everything start to finish.
 - Developer replies in reviews can span a decade; label each one with its year.
 - If a competitor has lots of "Not mentioned" cells, keep those claims out of store marketing unless you've tested them yourself.
-- Research findings feed back into the requirements: research for the Example App added three groups of requirements: home screen widgets, handwriting pages, and export / backup (appended under new FR numbers).

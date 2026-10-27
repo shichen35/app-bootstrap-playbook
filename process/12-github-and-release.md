@@ -1,29 +1,24 @@
 # 12 · GitHub integration and release prep
 
-## Create the repo and push
+For creating the repo, pushing, normalizing commit timestamps, and adding CI and Dependabot, see the [app-repo-publish](../skills/app-repo-publish/SKILL.md) Skill.
 
-```bash
-gh auth status
-gh repo create <owner>/<repo> --private --source . --remote origin --push
-gh repo view <owner>/<repo> --json visibility,url,defaultBranchRef
-```
+## Why private by default, and why push only main
 
-Before pushing, check: no secrets (`local.properties`, real ad IDs and signing files are in `.gitignore`); no real user environment details in screenshots; backup branches stay local.
+Before launch, a repo usually still contains things that haven't been swapped out yet: test ad IDs, placeholder package names, demo data in screenshots. Keep it private, and decide whether to open it up only after the release checklist is done. Backup branches (such as `backup/before-redate`, taken before rewriting commit dates) are local insurance and never get pushed.
 
-## Tidying commit history (optional)
+## Why commit dates can only be rewritten before the first push
 
-If you need consistent commit timestamps (e.g. all during daytime hours on certain days, evenly spaced with random jitter), generate a mapping with [app-repo-publish/scripts/redate-commits.py](../skills/app-repo-publish/scripts/redate-commits.py), then run `git filter-branch --env-filter` to rewrite both author and committer dates. Create a `backup/before-redate` branch first, and afterward confirm with `git diff backup/before-redate main --stat` that the content is unchanged. **Only do this before pushing**; never rewrite history that has already been pushed.
+Rewriting dates changes every commit hash. Do it after pushing and everyone else's clones stop matching the remote. Taking a backup branch first and confirming afterward that the content is unchanged is what makes this step safe.
 
-## Repo extras
+## Repo extras the Skill doesn't cover
 
-- `.github/dependabot.yml`: daily Gradle / Swift Package dependency checks.
-- `.github/workflows/ci.yml`: build + unit tests on push and PR, with caches keyed on toolchain version and lockfile; `release.yml` builds and publishes when a tag is pushed.
-- `.github/ISSUE_TEMPLATE/` (bug / feature), `PULL_REQUEST_TEMPLATE.md` (what changed, how it was tested, and a checklist: builds and tests pass with no warnings; CHANGELOG updated).
+- `release.yml`: build and publish when a tag is pushed.
 - `CHANGELOG.md`, `CONTRIBUTING.md`, `SECURITY.md`, `LICENSE` (if open source).
+- Add "builds and tests pass with no warnings; CHANGELOG updated" to the checklist in the PR template.
 
 ## What the README must include
 
-- One paragraph on what the app is and how the three platform versions relate.
+- One paragraph on what the app is and how the platform versions relate.
 - A feature list (mapped to FRs).
 - Build and check commands.
 - **What to change before store submission**: developer team, App Group / bundle ID registration, real ad IDs, store products, privacy policy link.

@@ -2,24 +2,17 @@
 
 Goal: the agent captures screenshots in the simulator, reads them, finds the problems and fixes them before a human ever looks.
 
-## How to capture screenshots
+For how to capture, which checklist to review against, and how to record the results, see the [app-screenshot-review](../skills/app-screenshot-review/SKILL.md) Skill. The iOS screenshot script is at [app-scaffold/scripts/ios/shot.sh](../skills/app-scaffold/scripts/ios/shot.sh).
 
-- iOS: `tools/shot.sh <out.png> <screen> [device] [launch args…]` (see [app-scaffold/scripts/ios/shot.sh](../skills/app-scaffold/scripts/ios/shot.sh)): builds, installs, seeds demo data on first run, runs `simctl launch -screen …`, waits, runs `simctl io screenshot`, and downscales to 1200 px before reading (to save tokens).
-- Android: `adb exec-out screencap -p > out.png`; on a foldable, switch postures with the extended controls / `adb emu fold`.
-- macOS: an in-app screenshot hook renders the window to a PNG (`design/capture.py`), using a separate data directory for each shot.
-- Dark mode: `xcrun simctl ui <device> appearance dark`; language: `-AppleLanguages "(zh-Hans)" -AppleLocale zh_CN`.
-- Keep demo data in the repo (e.g. `tools/demo-entries.json`), covering every bullet symbol, long entries, Migration across months and empty months. **Never commit screenshots containing real user data** (real notes, accounts, device names).
+## Why the agent reviews its own screenshots
 
-## What to check at each milestone (checklist)
+Code that looks right doesn't guarantee a UI that looks right. Truncation, overlap, bad line breaks in Chinese and text that disappears in dark mode only show up in screenshots. When the agent captures, reads and fixes at every milestone, the human receives a UI that has already had one round of self-review and only needs to check what the agent can't. Downscale screenshots to 1200 px before reading them to save tokens.
 
-- [ ] Truncation: are titles, names, units or subtitles cut off with `…` or wrapped in the wrong place?
-- [ ] Overlap: do floating toolbars / buttons / ads / the keyboard cover content or each other?
-- [ ] Duplication: is the same information shown twice (a date in both the title and the header)?
-- [ ] Platform conventions: stray dividers between segmented controls, a large title covering the first row, AM/PM crowding the chart axis, Chinese time labels with a day-period prefix such as "early morning".
-- [ ] Status: an icon / text in addition to color; empty, error and no-permission states.
-- [ ] Both languages (English and Chinese), both appearances (light and dark), both window widths (narrow and wide: iPad / foldable).
-- [ ] Key screens with Dynamic Type / large text sizes.
-- [ ] Ad and paywall placement follows the ADR's red lines.
+Capturing on other platforms:
+
+- On an Android foldable, switch postures with the extended controls or `adb emu fold`.
+- macOS has no simulator: an in-app screenshot hook renders the window to a PNG, using a separate data directory for each shot.
+- Keep demo data in the repo (e.g. `tools/demo-entries.json`), covering every bullet symbol, long entries, Migration across months and empty months.
 
 ## Common self-review findings and fixes
 
@@ -38,7 +31,3 @@ Goal: the agent captures screenshots in the simulator, reads them, finds the pro
 - **iOS 26 Liquid Glass**: get glass from system components wherever possible (navigation bars, toolbars, search, Sheets, menus), and don't give them background colors. Reserve `.glassEffect(...)` for custom floating controls, grouping several in a `GlassEffectContainer`. Primary actions use `.buttonStyle(.glassProminent)`, secondary ones `.glass`. Bottom floating areas use `safeAreaBar`; group toolbar items with `ToolbarSpacer`; put a status summary in `navigationSubtitle`; put search in the bottom toolbar (`DefaultToolbarItem(kind: .search, placement: .bottomBar)`).
 - **Material 3 Expressive**: colors come only from `colorScheme` tokens and type only from typography tokens; don't give a fixed height to any text control whose content might not fit; use emphasis to serve the task, not to decorate.
 - On both platforms: encode status with both a color and an SF Symbol / Material icon; use tabular figures for numbers; layout is window-only.
-
-## Wrap-up
-
-Screenshots go in `doc/screenshots/` (mN-*.png for milestones, final-*.png for the final set); review findings go under "Milestone Mn" in the decision log.

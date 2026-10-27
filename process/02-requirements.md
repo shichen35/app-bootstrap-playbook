@@ -2,38 +2,30 @@
 
 Goal: one set of feature requirements **shared by every platform**, each item numbered and testable, which the architecture, tasks, commits and ADRs all reference.
 
-## Outputs
+For the how-to, see the [app-spec](../skills/app-spec/SKILL.md) Skill and its [FR-FORMAT.md](../skills/app-spec/FR-FORMAT.md).
 
-- `doc/feature-requirements.md` (template [app-spec/FR-FORMAT.md](../skills/app-spec/FR-FORMAT.md))
-- `CONTEXT.md` glossary (template [app-spec/CONTEXT-FORMAT.md](../skills/app-spec/CONTEXT-FORMAT.md))
+## Why number them
 
-## How to write it
+FR-n is the anchor that ties all the documents together: tasks in the task list carry an FR-n, commits and ADRs cite it, and the other platform's platform mapping table maps against it line by line. Numbers are only ever appended, never renumbered, so an FR-7.3 cited in a commit three months ago still points to the same requirement today.
 
-1. **Open with a paragraph naming the baseline**: which version / which research it follows, and the date.
-2. **Platform mapping table** (required when porting or going multi-platform): how each concept of the original maps to this platform, and why. Example:
+## Platform mapping table
 
-   | Android | iOS | Notes |
-   |---|---|---|
-   | AlarmManager reminders | Local notifications | iOS caps pending notifications at 64, so only the nearest batch is scheduled |
-   | Receiving text shared from other apps | Covered by "Open in App" for now | A Share Extension is expensive; deferred |
+When porting or going multi-platform, give each mechanism of the original its own row: what it maps to on this platform, and why. Example:
 
-3. **FR-n groups**: one user goal per group ("rapid logging", "migrate unfinished tasks", "Collections and Index", …). Each FR-n.m is one testable sentence with numeric bounds ("at most 10 MB and 50,000 entries per import", "consecutive edits within 300 ms are coalesced into one write").
-4. **Free / Pro** gets its own group (FR-10). Each item states its tier and what happens on downgrade; decisions cite the ADR.
-5. **"Not doing, and why"** section: what is explicitly rejected and why (e.g. social sharing, multi-user collaboration, cloud AI summaries, a web version, …). This section keeps the agent from adding features on its own initiative.
-6. Features added later get appended numbers (FR-11, FR-12, …); existing numbers are never renumbered.
+| Android | iOS | Notes |
+|---|---|---|
+| AlarmManager reminders | Local notifications | iOS caps pending notifications at 64, so only the nearest batch is scheduled |
+| Receiving text shared from other apps | Covered by "Open in App" for now | A Share Extension is expensive; deferred |
 
-## Glossary (CONTEXT.md)
+## Why "Not doing, and why" is mandatory
 
-- One entry per domain concept: **Term (Chinese name)**: a one-sentence definition. _Avoid_: words that are easily confused with it.
-- Example: "**Migration**: moving an unfinished task to the next month or into the Future Log. The original entry is marked `>`, not deleted. _Avoid_: Move, Copy."
-- Code names, UI copy and docs all use the terms in the glossary. Every platform shares the same English terms.
+This section keeps the agent from adding features on its own initiative, and keeps future contributors from reopening ideas that were already rejected. The Example App explicitly rules out social sharing, multi-user collaboration, cloud AI summaries and a web version.
 
-## Gate
+## Glossary
 
-- [ ] Every FR has a numeric or observable acceptance criterion.
-- [ ] A "Not doing, and why" section exists.
-- [ ] The platform mapping table covers every difference from the original.
-- [ ] A human has reviewed and confirmed the scope (especially the Pro boundary).
+The glossary keeps code names, UI copy and docs on one vocabulary, and gives every platform the same English terms. Example:
+
+> **Migration**: moving an unfinished task to the next month or into the Future Log. The original entry is marked `>`, not deleted. _Avoid_: Move, Copy.
 
 ## Lessons
 

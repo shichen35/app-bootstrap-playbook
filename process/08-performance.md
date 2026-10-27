@@ -2,7 +2,7 @@
 
 Start by writing the target scale into the requirements (for the Example App: 50,000 journal entries and several years of Monthly Logs, with smooth list scrolling and search and no background battery drain). Then design and verify against the checklist below.
 
-## Design checklist
+## Design points
 
 **Data and I/O**
 - Load lists from the database one page at a time (Room `PagingSource` / SwiftData `FetchDescriptor` with `fetchLimit` + offset); never read every entry at once.

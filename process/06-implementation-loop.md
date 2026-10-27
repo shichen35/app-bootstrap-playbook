@@ -2,50 +2,30 @@
 
 Goal: break the requirements into 15–35 tasks that can each be committed on their own, and have the agent work through the list one task at a time. Whenever work is interrupted (a session limit, a new session, a hand-off to someone else), it can pick up again from the state of the repo.
 
-## Task list `doc/dev-progress.md` (template [app-scaffold/DEV-PROGRESS-FORMAT.md](../skills/app-scaffold/DEV-PROGRESS-FORMAT.md))
+For the how-to, see the [app-task-loop](../skills/app-task-loop/SKILL.md) Skill; the formats for the task list and decision log are in the [app-scaffold](../skills/app-scaffold/SKILL.md) directory.
 
-- Open with a **resume protocol**: "After an interruption, continue from the first unchecked task: check `git log --oneline` and `git status` first; finish any uncommitted changes, pass the checks, then commit."
-- One line per task: `- [ ] N. type(scope): description (FR-n)`, with ★ on milestones.
-- Order: docs → scaffold → pure logic (entry model → dates and recurrence → Migration rules → import/export) → platform implementation (storage / reminders) → command entry point → main screen ★ → add → actions → detail ★ → settings → reminders → export → background → wide screen ★ → widgets → extra features → monetization ★ → Wrap-up ★.
-- Work added later goes into a "To be scheduled" section and moves into the numbered list when it's scheduled.
+## Why one commit per task
 
-## The loop for each task
+Resuming depends on two facts: the last commit and the first unchecked task. With exactly one commit per task, and the checkbox committed together with the code, the repo itself shows how far the work got. Rollbacks and reviews happen per task too.
 
-```text
-Read the task and its related FRs / ADRs
-  → write the code (tests first for pure logic)
-  → tools/check.sh passes (lint, tests, build, localization)
-  → at milestones: take simulator screenshots, read them, fix the problems
-  → log new decisions / problems in doc/decisions.md (D-n / P-n)
-  → check off the item in dev-progress
-  → git commit -m "type(scope): subject"   # one line, one commit per task
-```
+## Task order
 
-Commit messages: Conventional Commits, one line, no body, no trailers, no attribution. The subject is a verb phrase describing the user-visible effect (`feat(log): roll unfinished tasks into the next month on migration`).
+An order that has worked in practice: docs → scaffold → pure logic (entry model → dates and recurrence → Migration rules → import/export) → platform implementation (storage / reminders) → command entry point → main screen ★ → add → actions → detail ★ → settings → reminders → export → background → wide screen ★ → widgets → extra features → monetization ★ → Wrap-up ★.
 
-## Decision log `doc/decisions.md` (template [app-scaffold/DECISION-LOG-FORMAT.md](../skills/app-scaffold/DECISION-LOG-FORMAT.md))
+Pure logic comes first because it has no UI dependency and the fastest tests, and every later UI task builds on it. A ★ milestone comes every 3–5 tasks or so, and that's where the screenshot reviews happen.
 
-- **D-n decisions**: what was chosen, why, and what was given up.
-- **P-n problems**: symptom, cause, and how it was solved (or why it wasn't).
-- **Milestone Mn**: screenshot file names, what was observed, what self-review fixed, and what was **not verified**.
-- The final "Wrap-up" section: what needs human review or a decision, what wasn't done and why, and what was not verified.
+## Commit messages
 
-How ADRs and the decision log divide the work: ADRs record long-lived, architecture-level trade-offs that need a human decision; the decision log is the running record of every decision, large or small, and every problem hit during implementation. The iOS version used only the decision log (the user asked for a single file); the Android version has both.
+Conventional Commits, one line, no body, no trailers, no attribution. The subject is a verb phrase describing the user-visible effect, such as `feat(log): roll unfinished tasks into the next month on migration`, not `update MigrationRule.kt`.
 
-## Long jobs: scheduled wake-up and resume
+## How ADRs and the decision log divide the work
 
-- When work starts, set up a **recurring in-session task** (Claude Code `CronCreate`, say every 3 hours) whose prompt spells out: "Read dev-progress and git status; if anything is unfinished, continue from the first unchecked task, following the rules in CLAUDE.md." After a session limit interrupts the work, it wakes the session once quota is back. Recurring tasks expire automatically after 7 days; delete it yourself once everything is done.
-- For the prompt template, see [app-task-loop/RESUME.md](../skills/app-task-loop/RESUME.md).
+ADRs record long-lived, architecture-level trade-offs that need a human decision. The decision log (D-n / P-n) is the running record of every decision, large or small, and every problem hit during implementation. Its final "Wrap-up" section lists what needs a human decision, what wasn't done, and what was not verified. If the user asks for all decisions in a single file, use the decision log alone.
 
-## Parallelism and sub-agents
+## Why a scheduled wake-up
 
-- Use parallel sub-agents for **read-only, independent** work such as research and fact-checking.
-- Coding tasks run sequentially in the main session: never have two agents edit the same files at once.
-- Every sub-agent brief must stand on its own: goal, files, "Done when" criteria, and directions already ruled out.
+Long jobs will hit the session limit. A recurring in-session task (say, every 3 hours) wakes the session once quota is back and continues from the task list, so nobody has to babysit it. Recurring tasks expire automatically after 7 days; delete them yourself once everything is done. When the playbook is installed as a plugin, every new session also opens by reporting which task is next.
 
-## Gate (per task)
+## Parallelism
 
-- [ ] `tools/check.sh` exits 0 (don't judge by piping it and reading the last line).
-- [ ] New logic has tests (in the pure-logic module).
-- [ ] Every new user-facing string is translated.
-- [ ] The dev-progress checkbox and decision log updates go in the same commit as the code.
+Read-only, independent work such as research and fact-checking is a good fit for parallel sub-agents. Code gets written sequentially in the main session: two agents editing the same files at once create more conflicts than they save time.
