@@ -5,7 +5,17 @@
   "author": {
     "name": "app-bootstrap-playbook contributors"
   },
-  "keywords": ["app", "android", "ios", "spec", "adr", "workflow"],
+  "homepage": "https://github.com/shichen35/app-bootstrap-playbook",
+  "repository": "https://github.com/shichen35/app-bootstrap-playbook",
+  "license": "MIT",
+  "keywords": [
+    "app",
+    "android",
+    "ios",
+    "spec",
+    "adr",
+    "workflow"
+  ],
   "skills": [
     "./skills/ask-playbook",
     "./skills/app-research",

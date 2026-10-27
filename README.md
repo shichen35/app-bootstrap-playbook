@@ -18,7 +18,7 @@ A complete, reusable process for taking an app from idea to store-ready, with an
 
    ```bash
    # Install as a Claude Code plugin (run from the root of this repo)
-   claude plugin marketplace add "$PWD"
+   claude plugin marketplace add shichen35/app-bootstrap-playbook   # or the local path to this repo
    claude plugin install app-bootstrap-playbook@app-bootstrap-playbook
    ```
 
@@ -68,6 +68,10 @@ Conventions: when one skill calls another, it says `Call the Skill tool with "<n
 7. **Monetization has red lines**: the Free / Pro boundary, ad placement and downgrade rules are written as ADRs. A downgrade never changes user data, never interrupts running work, and there are no scheduled upsell prompts.
 8. **Build each platform independently; share requirements, not code**: in the same language you may copy core code (recording the upstream commit); across languages, share only the FRs and test-case ideas.
 9. **Be honest about what is not verified**: anything the agent cannot check (it needs taps, a real device or a real purchase) is listed explicitly and handed to a human for acceptance.
+
+## License
+
+[MIT](LICENSE).
 
 ## Trademarks
 
