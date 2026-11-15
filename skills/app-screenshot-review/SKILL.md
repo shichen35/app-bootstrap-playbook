@@ -9,7 +9,7 @@ description: Take screenshots of an app on the iOS Simulator or Android emulator
 
 - Try the platform's simulator panel / control tools first; if they aren't authorized, use the command line:
   - iOS: `tools/shot.sh <out.png> <screen> [device] [args…]` (builds, installs, seeds demo data, runs `simctl launch -screen …`, takes the screenshot, scales it to 1200 px). Dark mode: `xcrun simctl ui <dev> appearance dark`; Simplified Chinese: `-AppleLanguages "(zh-Hans)" -AppleLocale zh_CN`; tier: `-tier FREE|PRO`.
-  - Android: `adb exec-out screencap -p > out.png`; `adb shell am start ... -e screen <name>`.
+  - Android: `adb exec-out screencap -p > out.png`; `adb shell am start ... -e screen <name>`. Run `shared/store-kit/android-statusbar-fix.sh <serial> on` first (and `off` after) on any AVD: the Pixel 9 and Pixel 10 skins and overlay-less profiles such as the tablets put the status bar clock under the rounded corner, which is an emulator bug, not an app one. Other skins are left alone.
 - If the project has no `tools/shot.sh`: Call the Skill tool with "app-scaffold", which ships that script.
 - If you can't navigate to a screen, first add a `DebugLaunch` branch to the debug build (only under `#if DEBUG` / in the debug source set).
 - Don't request system dialogs that would cover screenshots (notification permission and the like) on a debug launch; restart the simulator to clear one that's already pending.
